@@ -34,7 +34,7 @@ alignment = 1
 
 [node name="bn_start" type="Button" parent="CanvasLayer/TabContainer/MainMunu/ButtonMainMunu"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 30
+theme_override_font_sizes/font_size = 40
 text = "Play"
 
 [node name="bn_setting" type="Button" parent="CanvasLayer/TabContainer/MainMunu/ButtonMainMunu"]
