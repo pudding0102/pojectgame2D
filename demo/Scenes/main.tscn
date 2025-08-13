@@ -1,0 +1,48 @@
+[gd_scene load_steps=2 format=3 uid="uid://dayt3v5x7n02v"]
+
+[ext_resource type="Texture2D" uid="uid://c01toxmndjcu2" path="res://Assets/Logo/LogoGame.png" id="1_jjgbg"]
+
+[node name="Main" type="Node2D"]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="TabContainer" type="TabContainer" parent="CanvasLayer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+current_tab = 0
+tabs_visible = false
+
+[node name="MainMunu" type="VBoxContainer" parent="CanvasLayer/TabContainer"]
+layout_mode = 2
+metadata/_tab_index = 0
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/TabContainer/MainMunu"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+texture = ExtResource("1_jjgbg")
+
+[node name="ButtonMainMunu" type="VBoxContainer" parent="CanvasLayer/TabContainer/MainMunu"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="bn_start" type="Button" parent="CanvasLayer/TabContainer/MainMunu/ButtonMainMunu"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Play"
+
+[node name="bn_setting" type="Button" parent="CanvasLayer/TabContainer/MainMunu/ButtonMainMunu"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Setting"
+
+[node name="bn_exit" type="Button" parent="CanvasLayer/TabContainer/MainMunu/ButtonMainMunu"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 30
+text = "Exit"
