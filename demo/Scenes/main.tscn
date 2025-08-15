@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=3 uid="uid://dayt3v5x7n02v"]
 
 [ext_resource type="Script" uid="uid://tayoarrfoc5f" path="res://Scripts/main.gd" id="1_bo1nx"]
-[ext_resource type="Texture2D" uid="uid://c01toxmndjcu2" path="res://Assets/Logo/LogoGame.png" id="1_jjgbg"]
+[ext_resource type="Texture2D" uid="uid://lnmtvontjgw8" path="res://Assets/Logo/Logo_text.png" id="2_jjvhh"]
 [ext_resource type="FontFile" uid="uid://b8d2ika8mw5wg" path="res://Assets/Fronts/Star Choco.ttf" id="3_8gbba"]
 [ext_resource type="Texture2D" uid="uid://b4k1nrxyf6jgb" path="res://Assets/Backgrouds/Design.png" id="4_jjvhh"]
 
@@ -30,7 +30,7 @@ metadata/_tab_index = 0
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 0
-texture = ExtResource("1_jjgbg")
+texture = ExtResource("2_jjvhh")
 
 [node name="ButtonMainMunu" type="VBoxContainer" parent="CanvasLayer/TabContainer/MainMunu"]
 layout_mode = 2
