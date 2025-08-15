@@ -1,8 +1,14 @@
-[gd_scene load_steps=2 format=3 uid="uid://dayt3v5x7n02v"]
+[gd_scene load_steps=6 format=3 uid="uid://dayt3v5x7n02v"]
 
+[ext_resource type="Script" uid="uid://tayoarrfoc5f" path="res://Scripts/main.gd" id="1_bo1nx"]
 [ext_resource type="Texture2D" uid="uid://c01toxmndjcu2" path="res://Assets/Logo/LogoGame.png" id="1_jjgbg"]
+[ext_resource type="FontFile" uid="uid://b8d2ika8mw5wg" path="res://Assets/Fronts/Star Choco.ttf" id="3_8gbba"]
+[ext_resource type="Texture2D" uid="uid://b4k1nrxyf6jgb" path="res://Assets/Backgrouds/Design.png" id="4_jjvhh"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_8gbba"]
 
 [node name="Main" type="Node2D"]
+script = ExtResource("1_bo1nx")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
@@ -12,6 +18,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_8gbba")
 current_tab = 0
 tabs_visible = false
 
@@ -34,15 +41,27 @@ alignment = 1
 
 [node name="bn_start" type="Button" parent="CanvasLayer/TabContainer/MainMunu/ButtonMainMunu"]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("3_8gbba")
 theme_override_font_sizes/font_size = 40
 text = "Play"
 
 [node name="bn_setting" type="Button" parent="CanvasLayer/TabContainer/MainMunu/ButtonMainMunu"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 30
+theme_override_fonts/font = ExtResource("3_8gbba")
+theme_override_font_sizes/font_size = 40
 text = "Setting"
 
 [node name="bn_exit" type="Button" parent="CanvasLayer/TabContainer/MainMunu/ButtonMainMunu"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 30
+theme_override_fonts/font = ExtResource("3_8gbba")
+theme_override_font_sizes/font_size = 40
 text = "Exit"
+
+[node name="Design" type="Sprite2D" parent="."]
+position = Vector2(576.968, 321.401)
+scale = Vector2(0.598991, 0.593701)
+texture = ExtResource("4_jjvhh")
+
+[connection signal="pressed" from="CanvasLayer/TabContainer/MainMunu/ButtonMainMunu/bn_start" to="." method="_on_bn_start_pressed"]
+[connection signal="pressed" from="CanvasLayer/TabContainer/MainMunu/ButtonMainMunu/bn_setting" to="." method="_on_bn_setting_pressed"]
+[connection signal="pressed" from="CanvasLayer/TabContainer/MainMunu/ButtonMainMunu/bn_exit" to="." method="_on_bn_exit_pressed"]
