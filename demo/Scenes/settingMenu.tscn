@@ -1,11 +1,259 @@
-[gd_scene load_steps=2 format=3 uid="uid://blg4hyd28yc0e"]
+[gd_scene load_steps=12 format=3 uid="uid://blg4hyd28yc0e"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_l6i0g"]
+[ext_resource type="Script" uid="uid://v1thix1rk63r" path="res://Scripts/settingControl.gd" id="1_o1lnw"]
+[ext_resource type="Texture2D" uid="uid://c7y1vf8l3v37a" path="res://Assets/Logo/exitIcon.png" id="2_o1lnw"]
+[ext_resource type="FontFile" uid="uid://b8d2ika8mw5wg" path="res://Assets/Fronts/Star Choco.ttf" id="3_yhl48"]
 
-[node name="SettingMenu" type="Panel"]
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_juwst"]
+bg_color = Color(0.0784314, 0.0784314, 0.0784314, 0.8)
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_pttal"]
+color = Color(1, 1, 1, 1)
+thickness = 6
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_o1lnw"]
+color = Color(0.265489, 0.179119, 0.999996, 1)
+thickness = 6
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_m818y"]
+color = Color(0.266667, 0.180392, 1, 1)
+thickness = 6
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_yhl48"]
+color = Color(1, 1, 1, 1)
+thickness = 6
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_juwst"]
+color = Color(0.266667, 0.180392, 1, 1)
+thickness = 6
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_e541y"]
+color = Color(1, 1, 1, 1)
+thickness = 6
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_wu1vd"]
+color = Color(0.266667, 0.180392, 1, 1)
+thickness = 6
+
+[node name="Control" type="Control"]
+layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_styles/panel = SubResource("StyleBoxEmpty_l6i0g")
+script = ExtResource("1_o1lnw")
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 2.0
+offset_top = 1.0
+offset_right = 650.0
+offset_bottom = 403.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_juwst")
+
+[node name="Button" type="Button" parent="Panel"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -254.0
+offset_bottom = 216.0
+grow_horizontal = 0
+icon = ExtResource("2_o1lnw")
+flat = true
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -765.0
+offset_top = -504.0
+offset_right = 735.0
+offset_bottom = 496.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 40
+alignment = 1
+
+[node name="Label" type="Label" parent="Panel/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_fonts/font = ExtResource("3_yhl48")
+theme_override_font_sizes/font_size = 100
+text = "Game Settings"
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="Panel/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_fonts/font = ExtResource("3_yhl48")
+theme_override_font_sizes/font_size = 70
+text = "Sound Settings"
+
+[node name="soundSet" type="VBoxContainer" parent="Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="musicContainer" type="HBoxContainer" parent="Panel/VBoxContainer/soundSet"]
+layout_mode = 2
+theme_override_constants/separation = 239
+
+[node name="music" type="Label" parent="Panel/VBoxContainer/soundSet/musicContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_yhl48")
+theme_override_font_sizes/font_size = 40
+text = "Music"
+
+[node name="musicSlider" type="HSlider" parent="Panel/VBoxContainer/soundSet/musicContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_styles/slider = SubResource("StyleBoxLine_pttal")
+theme_override_styles/grabber_area = SubResource("StyleBoxLine_o1lnw")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxLine_m818y")
+value = 20.0
+
+[node name="gameSoundContainer" type="HBoxContainer" parent="Panel/VBoxContainer/soundSet"]
+layout_mode = 2
+theme_override_constants/separation = 100
+
+[node name="gameSound" type="Label" parent="Panel/VBoxContainer/soundSet/gameSoundContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_yhl48")
+theme_override_font_sizes/font_size = 40
+text = "Game Sounds"
+
+[node name="gameSoundSlider" type="HSlider" parent="Panel/VBoxContainer/soundSet/gameSoundContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_styles/slider = SubResource("StyleBoxLine_yhl48")
+theme_override_styles/grabber_area = SubResource("StyleBoxLine_juwst")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxLine_m818y")
+value = 50.0
+
+[node name="voiceContainer" type="HBoxContainer" parent="Panel/VBoxContainer/soundSet"]
+layout_mode = 2
+theme_override_constants/separation = 249
+
+[node name="voice" type="Label" parent="Panel/VBoxContainer/soundSet/voiceContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("3_yhl48")
+theme_override_font_sizes/font_size = 40
+text = "Voice"
+
+[node name="voiceSlider" type="HSlider" parent="Panel/VBoxContainer/soundSet/voiceContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+theme_override_styles/slider = SubResource("StyleBoxLine_e541y")
+theme_override_styles/grabber_area = SubResource("StyleBoxLine_wu1vd")
+theme_override_styles/grabber_area_highlight = SubResource("StyleBoxLine_m818y")
+value = 10.0
+
+[node name="Label3" type="Label" parent="Panel/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_fonts/font = ExtResource("3_yhl48")
+theme_override_font_sizes/font_size = 70
+text = "Ghaphic Settings"
+
+[node name="ghapSet" type="VBoxContainer" parent="Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="ghapVboxContainer" type="HBoxContainer" parent="Panel/VBoxContainer/ghapSet"]
+layout_mode = 2
+theme_override_constants/separation = 200
+
+[node name="ghapHBoxContainer" type="HBoxContainer" parent="Panel/VBoxContainer/ghapSet/ghapVboxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 200
+alignment = 1
+
+[node name="bn_high" type="Button" parent="Panel/VBoxContainer/ghapSet/ghapVboxContainer/ghapHBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.737193, 0.737193, 0.737193, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("3_yhl48")
+theme_override_font_sizes/font_size = 40
+action_mode = 0
+text = "High"
+flat = true
+
+[node name="bn_medium" type="Button" parent="Panel/VBoxContainer/ghapSet/ghapVboxContainer/ghapHBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.737255, 0.737255, 0.737255, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("3_yhl48")
+theme_override_font_sizes/font_size = 40
+action_mode = 0
+text = "Medium"
+flat = true
+
+[node name="bn_low" type="Button" parent="Panel/VBoxContainer/ghapSet/ghapVboxContainer/ghapHBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.737255, 0.737255, 0.737255, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("3_yhl48")
+theme_override_font_sizes/font_size = 40
+action_mode = 0
+text = "Low"
+flat = true
+
+[node name="Label4" type="Label" parent="Panel/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+theme_override_fonts/font = ExtResource("3_yhl48")
+theme_override_font_sizes/font_size = 70
+text = "Controller Size"
+
+[node name="sizeSet" type="VBoxContainer" parent="Panel/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="sizeVboxContainer" type="HBoxContainer" parent="Panel/VBoxContainer/sizeSet"]
+layout_mode = 2
+theme_override_constants/separation = 200
+
+[node name="sizeHBoxContainer" type="HBoxContainer" parent="Panel/VBoxContainer/sizeSet/sizeVboxContainer"]
+layout_mode = 2
+theme_override_constants/separation = 200
+alignment = 1
+
+[node name="bn_large" type="Button" parent="Panel/VBoxContainer/sizeSet/sizeVboxContainer/sizeHBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.737255, 0.737255, 0.737255, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("3_yhl48")
+theme_override_font_sizes/font_size = 40
+action_mode = 0
+text = "Large"
+flat = true
+
+[node name="bn_mudium" type="Button" parent="Panel/VBoxContainer/sizeSet/sizeVboxContainer/sizeHBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.737255, 0.737255, 0.737255, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("3_yhl48")
+theme_override_font_sizes/font_size = 40
+text = "Medium"
+flat = true
+
+[node name="bn_small" type="Button" parent="Panel/VBoxContainer/sizeSet/sizeVboxContainer/sizeHBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.737255, 0.737255, 0.737255, 1)
+theme_override_colors/font_pressed_color = Color(1, 1, 1, 1)
+theme_override_fonts/font = ExtResource("3_yhl48")
+theme_override_font_sizes/font_size = 40
+text = "Small"
+flat = true
