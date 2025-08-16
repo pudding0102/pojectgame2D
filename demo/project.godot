@@ -11,5 +11,13 @@ config_version=5
 [application]
 
 config/name="projectgame2D"
+run/main_scene="uid://dayt3v5x7n02v"
 config/features=PackedStringArray("4.4", "Forward Plus")
 config/icon="res://icon.svg"
+boot_splash/stretch/mode="canvas_items"
+boot_splash/stretch/aspect="ignore"
+
+[display]
+
+window/stretch/mode="canvas_items"
+window/stretch/aspect="ignore"
