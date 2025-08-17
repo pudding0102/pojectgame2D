@@ -1,0 +1,42 @@
+[gd_scene load_steps=2 format=3 uid="uid://dqnsuw8xkmpkn"]
+
+[ext_resource type="Script" uid="uid://bofxpwkjt03pt" path="res://story_scene.gd" id="1_7jyys"]
+
+[node name="StoryScene" type="Node2D"]
+script = ExtResource("1_7jyys")
+
+[node name="background" type="Sprite2D" parent="."]
+
+[node name="DialogueBox" type="Panel" parent="."]
+offset_left = 97.0
+offset_top = 480.0
+offset_right = 1058.0
+offset_bottom = 591.0
+
+[node name="NameLabel" type="Label" parent="DialogueBox"]
+layout_mode = 0
+offset_left = 856.0
+offset_top = 12.0
+offset_right = 924.0
+offset_bottom = 40.0
+theme_override_font_sizes/font_size = 20
+text = "บรรยาย"
+
+[node name="DialogueLabel" type="Label" parent="DialogueBox"]
+layout_mode = 0
+offset_left = 65.0
+offset_top = 39.0
+offset_right = 381.0
+offset_bottom = 67.0
+theme_override_font_sizes/font_size = 20
+text = "-------------------------------------------------"
+
+[node name="next_button" type="Button" parent="DialogueBox"]
+layout_mode = 0
+offset_left = 889.0
+offset_top = -42.0
+offset_right = 938.0
+offset_bottom = -11.0
+text = "NEXT"
+
+[connection signal="pressed" from="DialogueBox/next_button" to="." method="_on_next_button_pressed"]

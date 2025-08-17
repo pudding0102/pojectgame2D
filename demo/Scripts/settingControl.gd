@@ -18,11 +18,7 @@ var sceneManager = preload("res://Scripts/sceneManager.gd")
 
 func _ready():
 	pass
-		
-#set_active
-func set_active(buttons:Array, active_button: Button):
-	for click in buttons:
-		click.add_theme_color_override("font_color")
+
 #Graphic pressed
 func _on_bn_high_pressed() -> void:
 	pass # Replace with function body.
@@ -48,7 +44,3 @@ func _on_bn_small_pressed() -> void:
 
 func _on_exit_bn_pressed() -> void:
 	get_tree().change_scene_to_file("res://Scenes/main.tscn")
-
-
-func _on_bn_medium_pressed() -> void:
-	pass # Replace with function body.
