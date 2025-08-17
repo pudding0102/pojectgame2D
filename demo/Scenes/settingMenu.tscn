@@ -251,7 +251,7 @@ theme_override_styles/focus = SubResource("StyleBoxLine_cdpvn")
 toggle_mode = true
 action_mode = 0
 button_group = SubResource("ButtonGroup_cdpvn")
-text = "Large"
+text = "FULLSCREEN"
 flat = true
 
 [node name="bn_mudium" type="Button" parent="VBoxContainer/sizeSet/sizeVboxContainer/sizeHBoxContainer"]
@@ -263,7 +263,7 @@ theme_override_font_sizes/font_size = 40
 theme_override_styles/focus = SubResource("StyleBoxLine_cdpvn")
 toggle_mode = true
 button_group = SubResource("ButtonGroup_cdpvn")
-text = "Medium"
+text = "WINDOW"
 flat = true
 
 [node name="bn_small" type="Button" parent="VBoxContainer/sizeSet/sizeVboxContainer/sizeHBoxContainer"]
@@ -275,7 +275,7 @@ theme_override_font_sizes/font_size = 40
 theme_override_styles/focus = SubResource("StyleBoxLine_cdpvn")
 toggle_mode = true
 button_group = SubResource("ButtonGroup_cdpvn")
-text = "Small"
+text = "SMALL"
 flat = true
 
 [connection signal="pressed" from="exit_bn" to="." method="_on_exit_bn_pressed"]
