@@ -26,17 +26,32 @@ func _ready():
 				set_active(size_bn, bn_mudium_size)
 			SizeController.WindowSize.SMALL:
 				set_active(size_bn, bn_small)
-
+				
+	if GraphicController:
+		match GraphicController.get_graphics_quality():
+			GraphicController.GraphicsQuality.LOW:
+				set_active(grap_bn, bn_low)
+				bn_low.text = GraphicController.get_quality_name(GraphicController.GraphicsQuality.LOW)
+		
+			GraphicController.GraphicsQuality.MEDIUM:
+				set_active(grap_bn, bn_medium_grap)
+				bn_medium_grap.text = GraphicController.get_quality_name(GraphicController.GraphicsQuality.MEDIUM)
+		
+			GraphicController.GraphicsQuality.HIGH:
+				set_active(grap_bn, bn_high)
+				bn_high.text = GraphicController.get_quality_name(GraphicController.GraphicsQuality.HIGH)
 
 #Graphic pressed
 func _on_bn_high_pressed() -> void:
-	pass
+	set_active(grap_bn, bn_high)
+	GraphicController.set_graphics_quality(GraphicController.GraphicsQuality.HIGH)
 
 func _on_bn_medium_grap_pressed() -> void:
-	pass # Replace with function body.
-
+	set_active(grap_bn, bn_medium_grap)
+	GraphicController.set_graphics_quality(GraphicController.GraphicsQuality.MEDIUM)
 func _on_bn_low_pressed() -> void:
-	pass # Replace with function body.
+	set_active(grap_bn, bn_low)
+	GraphicController.set_graphics_quality(GraphicController.GraphicsQuality.LOW)
 
 #Size pressed
 func _on_bn_large_pressed() -> void:

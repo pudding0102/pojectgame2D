@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://blg4hyd28yc0e"]
+[gd_scene load_steps=14 format=3 uid="uid://blg4hyd28yc0e"]
 
 [ext_resource type="Script" uid="uid://v1thix1rk63r" path="res://Scripts/settingControl.gd" id="1_o1lnw"]
 [ext_resource type="Texture2D" uid="uid://c7y1vf8l3v37a" path="res://Assets/Logo/exitIcon.png" id="2_o1lnw"]
@@ -27,14 +27,6 @@ color = Color(1, 1, 1, 1)
 thickness = 6
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_e541y"]
-color = Color(0.266667, 0.180392, 1, 1)
-thickness = 6
-
-[sub_resource type="StyleBoxLine" id="StyleBoxLine_wu1vd"]
-color = Color(1, 1, 1, 1)
-thickness = 6
-
-[sub_resource type="StyleBoxLine" id="StyleBoxLine_m818y"]
 color = Color(0.266667, 0.180392, 1, 1)
 thickness = 6
 
@@ -126,13 +118,13 @@ value = 20.0
 
 [node name="gameSoundContainer" type="HBoxContainer" parent="VBoxContainer/soundSet"]
 layout_mode = 2
-theme_override_constants/separation = 100
+theme_override_constants/separation = 287
 
 [node name="gameSound" type="Label" parent="VBoxContainer/soundSet/gameSoundContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("3_yhl48")
 theme_override_font_sizes/font_size = 40
-text = "Game Sounds"
+text = "SFX"
 
 [node name="gameSoundSlider" type="HSlider" parent="VBoxContainer/soundSet/gameSoundContainer"]
 layout_mode = 2
@@ -142,25 +134,6 @@ theme_override_styles/slider = SubResource("StyleBoxLine_juwst")
 theme_override_styles/grabber_area = SubResource("StyleBoxLine_e541y")
 theme_override_styles/grabber_area_highlight = SubResource("StyleBoxLine_yhl48")
 value = 50.0
-
-[node name="voiceContainer" type="HBoxContainer" parent="VBoxContainer/soundSet"]
-layout_mode = 2
-theme_override_constants/separation = 249
-
-[node name="voice" type="Label" parent="VBoxContainer/soundSet/voiceContainer"]
-layout_mode = 2
-theme_override_fonts/font = ExtResource("3_yhl48")
-theme_override_font_sizes/font_size = 40
-text = "Voice"
-
-[node name="voiceSlider" type="HSlider" parent="VBoxContainer/soundSet/voiceContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 4
-theme_override_styles/slider = SubResource("StyleBoxLine_wu1vd")
-theme_override_styles/grabber_area = SubResource("StyleBoxLine_m818y")
-theme_override_styles/grabber_area_highlight = SubResource("StyleBoxLine_yhl48")
-value = 10.0
 
 [node name="Label3" type="Label" parent="VBoxContainer"]
 layout_mode = 2
