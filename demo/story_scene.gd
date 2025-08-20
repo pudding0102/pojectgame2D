@@ -18,13 +18,13 @@ var dialogues = [
 		"background": "res://SceneStory/scene2.png"
 	},
 	{
-		"name": "เทพธิดา",
+		"name": "บรรยาย",
 		"text": "เพราะเป็นเทศกาลขนมหวานประจำปีของหมู่บ้าน",
-		"background": "res://bg/bg_temple.png"
+		"background": "res://SceneStory/scene3.png"
 	},
 	{
-		"name": "ลันเตา",
-		"text": "...",
+		"name": "บรรยาย",
+		"text": "และยังเป็นในรอบ 10 ปี ที่เทพธิดาประทาน วัตถุดิบในการทำพุดดิ้งสีทอง เพื่อเป็นการขอบคุณหมู่บ้านกีกี้ ที่เป็นบ้านเกิดของผู้กล้าแจ็ค",
 		"background": "res://bg/bg_temple.png"
 	},
 	{
