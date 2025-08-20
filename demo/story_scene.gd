@@ -25,12 +25,17 @@ var dialogues = [
 	{
 		"name": "บรรยาย",
 		"text": "และยังเป็นในรอบ 10 ปี ที่เทพธิดาประทาน วัตถุดิบในการทำพุดดิ้งสีทอง เพื่อเป็นการขอบคุณหมู่บ้านกีกี้ ที่เป็นบ้านเกิดของผู้กล้าแจ็ค",
-		"background": "res://bg/bg_temple.png"
+		"background": "res://SceneStory/scene4.png"
 	},
 	{
-		"name": "ลันเตา",
-		"text": "เคครับ",
-		"background": "res://bg/bg_temple.png"
+		"name": "บรรยาย",
+		"text": "แต่ครั้งนี้ โชคชะตาไม่เข้าข้างผู้หิวโหย...",
+		"background": "res://SceneStory/scene5.png"
+	}
+	,{
+		"name": "บรรยาย",
+		"text": "เจ้ายักษ์ใจร้าย...ลงมาทำลายหมู่บ้าน ",
+		"background": "res://SceneStory/scene5.png"
 	},
 ]
 
