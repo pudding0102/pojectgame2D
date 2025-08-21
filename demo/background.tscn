@@ -1,10 +1,37 @@
 [gd_scene load_steps=2 format=3 uid="uid://cumrgl6wod6ug"]
 
-[ext_resource type="Texture2D" uid="uid://crb7k3fhvgeu3" path="res://background/bg1.png" id="1_oabld"]
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_po0nb"]
+load_path = "res://.godot/imported/bg.png-086b912f044104266caefa444b2f1644.ctex"
 
-[node name="background" type="Node2D"]
+[node name="background" type="Sprite2D"]
+position = Vector2(752, -4)
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+position = Vector2(750, 486)
+scale = Vector2(0.980033, 0.944185)
+texture = SubResource("CompressedTexture2D_po0nb")
+
+[node name="Sprite2D3" type="Sprite2D" parent="."]
+position = Vector2(-1278, 490)
+scale = Vector2(1.06792, 0.958834)
+texture = SubResource("CompressedTexture2D_po0nb")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(382, 378)
-scale = Vector2(0.741211, 0.741211)
-texture = ExtResource("1_oabld")
+position = Vector2(-245.75, 488.25)
+scale = Vector2(0.989746, 0.94873)
+texture = SubResource("CompressedTexture2D_po0nb")
+
+[node name="Sprite2D4" type="Sprite2D" parent="."]
+position = Vector2(750, -449)
+scale = Vector2(0.969984, 0.895777)
+texture = SubResource("CompressedTexture2D_po0nb")
+
+[node name="Sprite2D5" type="Sprite2D" parent="."]
+position = Vector2(-236, -447)
+scale = Vector2(0.979597, 0.90009)
+texture = SubResource("CompressedTexture2D_po0nb")
+
+[node name="Sprite2D6" type="Sprite2D" parent="."]
+position = Vector2(-1267, -443)
+scale = Vector2(1.05697, 0.909675)
+texture = SubResource("CompressedTexture2D_po0nb")

@@ -24,19 +24,19 @@ text = "บรรยาย"
 
 [node name="DialogueLabel" type="Label" parent="DialogueBox"]
 layout_mode = 0
-offset_left = 65.0
-offset_top = 39.0
-offset_right = 381.0
-offset_bottom = 67.0
+offset_left = 58.0
+offset_top = 21.0
+offset_right = 374.0
+offset_bottom = 49.0
 theme_override_font_sizes/font_size = 20
 text = "-------------------------------------------------"
 
 [node name="next_button" type="Button" parent="DialogueBox"]
 layout_mode = 0
-offset_left = 889.0
-offset_top = -42.0
-offset_right = 938.0
-offset_bottom = -11.0
+offset_left = 877.0
+offset_top = -41.0
+offset_right = 926.0
+offset_bottom = -10.0
 text = "NEXT"
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]

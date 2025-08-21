@@ -24,7 +24,8 @@ var dialogues = [
 	},
 	{
 		"name": "บรรยาย",
-		"text": "และยังเป็นในรอบ 10 ปี ที่เทพธิดาประทาน วัตถุดิบในการทำพุดดิ้งสีทอง เพื่อเป็นการขอบคุณหมู่บ้านกีกี้ ที่เป็นบ้านเกิดของผู้กล้าแจ็ค",
+		"text": "และยังเป็นในรอบ 10 ปี ที่เทพธิดาประทาน วัตถุดิบในการทำพุดดิ้งสีทอง 
+		เพื่อเป็นการขอบคุณหมู่บ้านกีกี้ ที่เป็นบ้านเกิดของผู้กล้าแจ็ค",
 		"background": "res://SceneStory/scene4.png"
 	},
 	{
@@ -42,12 +43,19 @@ var dialogues = [
 var dialogue_index = 0
 
 func _ready():
+	show_dialogue(dialogue_index)
+
 	if next_button:
+		# เชื่อมสัญญาณกดปุ่ม
 		next_button.pressed.connect(_on_next_button_pressed)
 	else:
 		print("❌ ไม่พบปุ่ม NextButton ตรวจสอบ path ให้ถูกต้อง")
 
-	show_dialogue(dialogue_index)
+
+func _input(event):
+	# ตรวจจับการกด action "next"
+	if event.is_action_pressed("next"):
+		_on_next_button_pressed()
 
 func show_dialogue(index):
 	var entry = dialogues[index]
