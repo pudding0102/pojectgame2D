@@ -1,0 +1,73 @@
+[gd_scene load_steps=11 format=3 uid="uid://b2de4cxi4hcyg"]
+
+[ext_resource type="Script" uid="uid://dro3w8vssf8od" path="res://yak.gd" id="1_0jwdf"]
+[ext_resource type="Texture2D" uid="uid://bh0plrm77w0x4" path="res://enemy/Yak1run.png" id="1_yvjal"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0jwdf"]
+atlas = ExtResource("1_yvjal")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wr0x8"]
+atlas = ExtResource("1_yvjal")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yot32"]
+atlas = ExtResource("1_yvjal")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5k68t"]
+atlas = ExtResource("1_yvjal")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kjlsi"]
+atlas = ExtResource("1_yvjal")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xhpyb"]
+atlas = ExtResource("1_yvjal")
+region = Rect2(320, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_a1h7d"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0jwdf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wr0x8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yot32")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5k68t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kjlsi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xhpyb")
+}],
+"loop": true,
+"name": &"walk",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_t55j8"]
+radius = 146.086
+
+[node name="Yak" type="CharacterBody2D"]
+script = ExtResource("1_0jwdf")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_a1h7d")
+animation = &"walk"
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(1, 1)
+shape = SubResource("CircleShape2D_t55j8")
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="area_exited" from="Area2D" to="." method="_on_area_2d_area_exited"]

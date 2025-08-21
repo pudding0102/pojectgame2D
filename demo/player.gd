@@ -1,6 +1,6 @@
 extends CharacterBody2D
 
-@export var speed: float = 200.0
+@export var speed: float = 300.0
 @export var clamp_to_viewport: bool = false
 
 signal check_player(enemy)
