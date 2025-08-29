@@ -3,6 +3,8 @@ extends Node2D
 @onready var main_menu: Panel = $Design/CanvasLayer/MainMenu
 @onready var setting_menu: Panel = $Design/settingMenu
 
+# test
+
 func _ready() -> void:
 	main_menu.visible = true
 	setting_menu.visible = false
