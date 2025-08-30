@@ -1,0 +1,151 @@
+[gd_scene load_steps=23 format=3 uid="uid://cju3hgbl5xvse"]
+
+[ext_resource type="Script" uid="uid://d0i5fxq1kvghf" path="res://celling_trap.gd" id="1_prgte"]
+[ext_resource type="Texture2D" uid="uid://bovnyhnr7l8i2" path="res://Traps/Ceiling Trap - Level 1.png" id="2_dcddj"]
+[ext_resource type="Script" uid="uid://dcs4b3x6i81qd" path="res://collision_shape_2d.gd" id="3_jx0v6"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_prgte"]
+atlas = ExtResource("2_dcddj")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dcddj"]
+atlas = ExtResource("2_dcddj")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jx0v6"]
+atlas = ExtResource("2_dcddj")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hygdl"]
+atlas = ExtResource("2_dcddj")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8lkct"]
+atlas = ExtResource("2_dcddj")
+region = Rect2(320, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a8afp"]
+atlas = ExtResource("2_dcddj")
+region = Rect2(384, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8b3pb"]
+atlas = ExtResource("2_dcddj")
+region = Rect2(448, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dm2c2"]
+atlas = ExtResource("2_dcddj")
+region = Rect2(512, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ssca4"]
+atlas = ExtResource("2_dcddj")
+region = Rect2(576, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3u734"]
+atlas = ExtResource("2_dcddj")
+region = Rect2(640, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4lmfx"]
+atlas = ExtResource("2_dcddj")
+region = Rect2(704, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6gnvw"]
+atlas = ExtResource("2_dcddj")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i5v6m"]
+atlas = ExtResource("2_dcddj")
+region = Rect2(768, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_65i3p"]
+atlas = ExtResource("2_dcddj")
+region = Rect2(832, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_30kbp"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_prgte")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dcddj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jx0v6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hygdl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8lkct")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a8afp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8b3pb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dm2c2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ssca4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3u734")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4lmfx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6gnvw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i5v6m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_65i3p")
+}],
+"loop": true,
+"name": &"Celling",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0jhwn"]
+size = Vector2(47.5, 12.625)
+
+[sub_resource type="Animation" id="Animation_y477l"]
+resource_name = "celling"
+
+[sub_resource type="Animation" id="Animation_4o35k"]
+length = 0.001
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_w2wnj"]
+_data = {
+&"RESET": SubResource("Animation_4o35k"),
+&"celling": SubResource("Animation_y477l")
+}
+
+[node name="cellingTrap" type="Node2D" groups=["Traps"]]
+script = ExtResource("1_prgte")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, 47)
+scale = Vector2(1.5, 1.5)
+sprite_frames = SubResource("SpriteFrames_30kbp")
+animation = &"Celling"
+frame = 12
+frame_progress = 0.0652205
+
+[node name="Hitbox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
+position = Vector2(0, 87)
+shape = SubResource("RectangleShape2D_0jhwn")
+script = ExtResource("3_jx0v6")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_w2wnj")
+}
+
+[connection signal="area_entered" from="Hitbox" to="Hitbox/CollisionShape2D" method="_on_hitbox_area_entered"]
