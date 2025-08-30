@@ -14,8 +14,8 @@
 [ext_resource type="Script" path="res://Scripts/GameUI.gd" id="6_66mfc"]
 [ext_resource type="Texture2D" uid="uid://clreg520jah1j" path="res://Assets/platformPack_item008.png" id="7_j7jun"]
 [ext_resource type="FontFile" uid="uid://bl0a1hgtd2j40" path="res://Assets/Fonts/FuzzyBubbles-Bold.ttf" id="8_xpj05"]
-[ext_resource type="PackedScene" uid="uid://faisifnqqmem" path="res://enemy.tscn" id="11_1bssr"]
 [ext_resource type="AudioStream" uid="uid://cr660k65lbsf2" path="res://Assets/Sound/S1_B5.wav" id="11_xpj05"]
+[ext_resource type="PackedScene" uid="uid://cpqdneigsycpg" path="res://StoryScene/Enemy.tscn" id="12_3dt7p"]
 [ext_resource type="PackedScene" uid="uid://jh8r6ohf302t" path="res://Scenes/Prefabs/Checkpoint.tscn" id="12_6jlo1"]
 [ext_resource type="AudioStream" uid="uid://bkshcyh8emhw5" path="res://1.06 Green Hill Zone Act 1.mp3" id="12_aksfc"]
 [ext_resource type="Script" uid="uid://drsk85qfy2heg" path="res://Scenes/Levels/1_06_green_hill_zone_act_1.gd" id="13_5pmb1"]
@@ -187,7 +187,7 @@ position = Vector2(1500, 229)
 position = Vector2(1443, -37)
 
 [node name="Coin5" parent="Coins" instance=ExtResource("3_rrh80")]
-position = Vector2(1853, 350)
+position = Vector2(1733, 230)
 
 [node name="Coin6" parent="Coins" instance=ExtResource("3_rrh80")]
 position = Vector2(2492, 289)
@@ -226,7 +226,13 @@ position = Vector2(10909, 224)
 position = Vector2(8352, -33)
 
 [node name="Coin18" parent="Coins" instance=ExtResource("3_rrh80")]
-position = Vector2(2139, 424)
+position = Vector2(2005, 236)
+
+[node name="Coin19" parent="Coins" instance=ExtResource("3_rrh80")]
+position = Vector2(1176, 48)
+
+[node name="Coin20" parent="Coins" instance=ExtResource("3_rrh80")]
+position = Vector2(1846, 108)
 
 [node name="Level" type="Node2D" parent="."]
 
@@ -242,21 +248,6 @@ tile_set = SubResource("TileSet_1bssr")
 unique_name_in_owner = true
 position = Vector2(175, 192)
 
-[node name="Enemy" parent="Level" instance=ExtResource("11_1bssr")]
-position = Vector2(2338, 465)
-
-[node name="Enemy2" parent="Level" instance=ExtResource("11_1bssr")]
-position = Vector2(2875, 471)
-
-[node name="Enemy3" parent="Level" instance=ExtResource("11_1bssr")]
-position = Vector2(9345, 464)
-
-[node name="Enemy4" parent="Level" instance=ExtResource("11_1bssr")]
-position = Vector2(10304, 457)
-
-[node name="Enemy5" parent="Level" instance=ExtResource("11_1bssr")]
-position = Vector2(11350, 468)
-
 [node name="Checkpoint" parent="Level" node_paths=PackedStringArray("spawnpoint") instance=ExtResource("12_6jlo1")]
 position = Vector2(4737, 460)
 spawnpoint = NodePath("../SpawnPoint")
@@ -264,6 +255,9 @@ spawnpoint = NodePath("../SpawnPoint")
 [node name="Checkpoint2" parent="Level" node_paths=PackedStringArray("spawnpoint") instance=ExtResource("12_6jlo1")]
 position = Vector2(8156, 460)
 spawnpoint = NodePath("../SpawnPoint")
+
+[node name="Enemy" parent="Level" instance=ExtResource("12_3dt7p")]
+position = Vector2(1479, 446)
 
 [node name="TutorialText" type="Node2D" parent="."]
 
@@ -382,5 +376,10 @@ stream = ExtResource("12_aksfc")
 volume_db = -10.0
 autoplay = true
 script = ExtResource("13_5pmb1")
+
+[node name="LevelFinishDoor2" parent="." instance=ExtResource("1_oqkjg")]
+z_index = 1
+position = Vector2(1852, 343)
+next_scene = ExtResource("2_0ac5u")
 
 [connection signal="finished" from="1_06GreenHillZoneAct1" to="1_06GreenHillZoneAct1" method="_on_finished"]

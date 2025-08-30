@@ -45,11 +45,11 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_n4sts"]
-radius = 13.0
-height = 66.0
+radius = 24.0
+height = 80.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tvbjh"]
-size = Vector2(28, 69)
+size = Vector2(41, 69)
 
 [sub_resource type="Curve" id="Curve_m2jh0"]
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.246032, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
@@ -1185,7 +1185,7 @@ shape = SubResource("CapsuleShape2D_n4sts")
 [node name="Collision" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Collision"]
-position = Vector2(0, 14.5)
+position = Vector2(0, 16)
 shape = SubResource("RectangleShape2D_tvbjh")
 
 [node name="ParticleTrails" type="CPUParticles2D" parent="."]
