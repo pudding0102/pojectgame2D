@@ -1,234 +1,405 @@
-[gd_scene load_steps=65 format=3 uid="uid://cc2vetmprwd1p"]
+[gd_scene load_steps=65 format=3 uid="uid://bxxl6r2dkv8g0"]
 
-[ext_resource type="Script" uid="uid://dw7ei0v2gbq5w" path="res://player.gd" id="1_onrkg"]
-[ext_resource type="Texture2D" uid="uid://eemsxc6djs5j" path="res://player/char_a_p1_0bas_humn_v01.png" id="2_i3pqv"]
-[ext_resource type="Texture2D" uid="uid://b8nm11vf8b2ax" path="res://player/Pierce_Down-Sheet.png" id="2_sweqy"]
-[ext_resource type="Texture2D" uid="uid://bhkybvct5qce3" path="res://player/Pierce_Side-Sheet.png" id="3_2hs0m"]
-[ext_resource type="Texture2D" uid="uid://c3h76skb57pbn" path="res://player/Pierce_Top-Sheet.png" id="4_1jxqw"]
-[ext_resource type="Texture2D" uid="uid://defd68i4yx54o" path="res://player/Pierce_พรเ้ะ-Sheet.png" id="4_2hs0m"]
+[sub_resource type="GDScript" id="GDScript_sweqy"]
+script/source = "extends CharacterBody2D
+
+@export var speed: float = 300.0
+@export var clamp_to_viewport: bool = false
+
+# --- การโจมตี / เวลาเล่นท่า / คูลดาวน์ ---
+@export var attack_duration: float = 0.25
+@export var attack_cooldown: float = 0.15
+
+signal check_player(enemy)
+signal take_damage
+
+var display_size: Vector2
+var speed_multiplier: float = 1.0
+var is_invincible: bool = false
+
+# จำทิศล่าสุด (ใช้ตอนยืนเฉย ๆ หรือเริ่มโจมตี)
+var last_facing: String = \"down\"
+
+# สถานะโจมตี
+var is_attacking := false
+var _attack_time_left := 0.0
+var _cooldown_left := 0.0
+
+# จับคลิกขวาแบบ just-pressed เอง
+var _rmb_was_down := false
+
+@onready var anim: AnimatedSprite2D = $AnimatedSprite2D
+
+func _ready() -> void:
+	display_size = get_viewport_rect().size
+	add_to_group(\"player\")
+	show()
+	# กันกรณี FPS อนิเมชันตั้งไว้ 0 หรือ speed_scale โดนแก้
+	anim.speed_scale = 1.0
+	print(\"[Player] Spawned. In tree?: \", is_inside_tree(), \"  Group 'player'?: \", is_in_group(\"player\"))
+	print(\"[Player] Viewport: \", display_size, \"  StartPos: \", position)
+	print(\"ANIMS: \", anim.sprite_frames.get_animation_names())  # Debug: รายชื่อแอนิเมชัน
+
+func _physics_process(delta: float) -> void:
+	# --- นับเวลาคูลดาวน์ / ปิดสถานะโจมตีเมื่อหมดเวลา ---
+	if _cooldown_left > 0.0:
+		_cooldown_left = maxf(0.0, _cooldown_left - delta)
+	if is_attacking:
+		_attack_time_left -= delta
+		if _attack_time_left <= 0.0:
+			is_attacking = false
+
+	# --- อ่านอินพุตทิศทาง \"ก่อน\" ตรวจโจมตี เพื่อให้ทิศโจมตีตรงกับที่กด ---
+	var input_vec := _get_input_vector()
+	if input_vec.length() > 0.0:
+		if absf(input_vec.x) > absf(input_vec.y):
+			last_facing = \"right\" if input_vec.x > 0.0 else \"left\"
+		else:
+			last_facing = \"down\" if input_vec.y > 0.0 else \"up\"
+
+	# --- เริ่มโจมตีถ้าเพิ่งกด (หลังรู้ทิศแล้ว) ---
+	if not is_attacking and _cooldown_left == 0.0 and _is_attack_just_pressed():
+		_start_attack(last_facing)
+
+	# --- การเคลื่อนที่: โจมตีอยู่จะหยุดนิ่ง ---
+	if is_attacking:
+		velocity = Vector2.ZERO
+	else:
+		velocity = (input_vec.normalized() if input_vec.length() > 0.0 else Vector2.ZERO) * speed * speed_multiplier
+
+	move_and_slide()
+
+	# --- บังคับอยู่ในกรอบจอ (ออปชัน) ---
+	if clamp_to_viewport:
+		position.x = clamp(position.x, 0.0, display_size.x)
+		position.y = clamp(position.y, 0.0, display_size.y)
+
+	# --- ตั้งอนิเมชันเดิน/ยืนเฉพาะตอน \"ไม่ได้โจมตี\" เพื่อไม่ให้ทับโจมตี ---
+	if not is_attacking:
+		_update_walk_idle_animation(velocity)
+
+	# เก็บสถานะปุ่มคลิกขวาไว้ตรวจ just-pressed รอบถัดไป
+	_rmb_was_down = Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT)
+
+# ================= Input Helper =================
+func _get_input_vector() -> Vector2:
+	var x := 0.0
+	var y := 0.0
+	# ขวา/ซ้าย
+	if InputMap.has_action(\"ui_right\") and Input.is_action_pressed(\"ui_right\"): x += 1.0
+	if InputMap.has_action(\"ui_left\")  and Input.is_action_pressed(\"ui_left\"):  x -= 1.0
+	if InputMap.has_action(\"right\")    and Input.is_action_pressed(\"right\"):    x += 1.0
+	if InputMap.has_action(\"left\")     and Input.is_action_pressed(\"left\"):     x -= 1.0
+	if InputMap.has_action(\"walk_right\") and Input.is_action_pressed(\"walk_right\"): x += 1.0
+	if InputMap.has_action(\"walk_left\")  and Input.is_action_pressed(\"walk_left\"):  x -= 1.0
+	# ลง/ขึ้น
+	if InputMap.has_action(\"ui_down\") and Input.is_action_pressed(\"ui_down\"): y += 1.0
+	if InputMap.has_action(\"ui_up\")   and Input.is_action_pressed(\"ui_up\"):   y -= 1.0
+	if InputMap.has_action(\"down\")    and Input.is_action_pressed(\"down\"):    y += 1.0
+	if InputMap.has_action(\"up\")      and Input.is_action_pressed(\"up\"):      y -= 1.0
+	if InputMap.has_action(\"walk_down\") and Input.is_action_pressed(\"walk_down\"): y += 1.0
+	if InputMap.has_action(\"walk_up\")   and Input.is_action_pressed(\"walk_up\"):   y -= 1.0
+	return Vector2(clamp(x, -1.0, 1.0), clamp(y, -1.0, 1.0))
+
+func _update_walk_idle_animation(v: Vector2) -> void:
+	if v.length() == 0.0:
+		anim.stop()
+		return
+	# ต้องมีแอนิเมชันเดินชื่อ: left, right, up, down
+	anim.play(last_facing)
+
+# ================= Attack =================
+func _is_attack_just_pressed() -> bool:
+	# แนะนำ: สร้างแอ็กชัน \"attack\" ใน Input Map แล้ว bind = Space + Right Mouse
+	if InputMap.has_action(\"attack\") and Input.is_action_just_pressed(\"attack\"):
+		return true
+	# ใช้ Space ผ่าน ui_accept
+	if InputMap.has_action(\"ui_accept\") and Input.is_action_just_pressed(\"ui_accept\"):
+		return true
+	# คลิกขวาแบบตรวจเอง (just pressed)
+	var rmb_now := Input.is_mouse_button_pressed(MOUSE_BUTTON_RIGHT)
+	var just_pressed_rmb := rmb_now and not _rmb_was_down
+	return just_pressed_rmb
+
+func _start_attack(facing: String) -> void:
+	print(\"ATTACK FACING:\", facing)  # Debug
+	is_attacking = true
+	_attack_time_left = attack_duration
+	_cooldown_left = attack_cooldown
+
+	match facing:
+		\"down\":
+			
+			_play_attack(\"attack_down\")
+		\"up\":
+			_play_attack(\"attack_up\")
+		\"left\":
+			_play_attack(\"attack_left\")
+		\"right\":
+			_play_attack(\"attack_right\")   # เพิ่ม case ขวาชัด ๆ
+		_:
+			_play_attack(\"attack_down\")
+func _play_attack(name: String) -> void:
+	anim.speed_scale = 1.0
+	if anim.sprite_frames.has_animation(name):
+		anim.frame = 0
+		anim.play(name)
+	else:
+		anim.frame = 0
+		anim.play(\"attack_right\") # กันพังถ้าไม่มี
+
+# ================= Options / Utilities =================
+func set_speed_multiplier(multiplier: float) -> void:
+	speed_multiplier = multiplier
+	print(\"[Player] speed_multiplier set to \", speed_multiplier)
+
+func set_invincible(value: bool) -> void:
+	is_invincible = value
+	print(\"[Player] invincible: \", is_invincible)
+
+# ================= ตัวอย่างสัญญาณจาก Area2D (ถ้ามี) =================
+func _on_area_2d_area_entered(area: Area2D) -> void:
+	if area and area.is_in_group(\"element\"):
+		print(\"ชน element (Area2D): \", area.name)
+"
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_sh265"]
+load_path = "res://.godot/imported/Pierce_Down-Sheet.png-44213c01a639f97c09e6b24599d03b69.ctex"
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2wuci"]
-atlas = ExtResource("2_sweqy")
+atlas = SubResource("CompressedTexture2D_sh265")
 region = Rect2(0, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_iruf7"]
-atlas = ExtResource("2_sweqy")
+atlas = SubResource("CompressedTexture2D_sh265")
 region = Rect2(64, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_j5n4i"]
-atlas = ExtResource("2_sweqy")
+atlas = SubResource("CompressedTexture2D_sh265")
 region = Rect2(128, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_634y6"]
-atlas = ExtResource("2_sweqy")
+atlas = SubResource("CompressedTexture2D_sh265")
 region = Rect2(192, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_efrwb"]
-atlas = ExtResource("2_sweqy")
+atlas = SubResource("CompressedTexture2D_sh265")
 region = Rect2(256, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hiqhm"]
-atlas = ExtResource("2_sweqy")
+atlas = SubResource("CompressedTexture2D_sh265")
 region = Rect2(320, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tkwlq"]
-atlas = ExtResource("2_sweqy")
+atlas = SubResource("CompressedTexture2D_sh265")
 region = Rect2(384, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hl5qd"]
-atlas = ExtResource("2_sweqy")
+atlas = SubResource("CompressedTexture2D_sh265")
 region = Rect2(448, 0, 64, 64)
 
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_4flbx"]
+load_path = "res://.godot/imported/Pierce_Side-Sheet.png-550fa076f29f33ada2f49116f3f122d7.ctex"
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_ajfva"]
-atlas = ExtResource("3_2hs0m")
+atlas = SubResource("CompressedTexture2D_4flbx")
 region = Rect2(0, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5ef02"]
-atlas = ExtResource("3_2hs0m")
+atlas = SubResource("CompressedTexture2D_4flbx")
 region = Rect2(64, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_pfmca"]
-atlas = ExtResource("3_2hs0m")
+atlas = SubResource("CompressedTexture2D_4flbx")
 region = Rect2(128, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_76oay"]
-atlas = ExtResource("3_2hs0m")
+atlas = SubResource("CompressedTexture2D_4flbx")
 region = Rect2(192, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_b4uyv"]
-atlas = ExtResource("3_2hs0m")
+atlas = SubResource("CompressedTexture2D_4flbx")
 region = Rect2(256, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tw8ou"]
-atlas = ExtResource("3_2hs0m")
+atlas = SubResource("CompressedTexture2D_4flbx")
 region = Rect2(320, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ygbnx"]
-atlas = ExtResource("3_2hs0m")
+atlas = SubResource("CompressedTexture2D_4flbx")
 region = Rect2(384, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_v2t6f"]
-atlas = ExtResource("3_2hs0m")
+atlas = SubResource("CompressedTexture2D_4flbx")
 region = Rect2(448, 0, 64, 64)
 
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_onrkg"]
+load_path = "res://.godot/imported/Pierce_พรเ้ะ-Sheet.png-2761b6dcd328e9bca8b3f39f439d9660.ctex"
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_ek41f"]
-atlas = ExtResource("4_2hs0m")
+atlas = SubResource("CompressedTexture2D_onrkg")
 region = Rect2(0, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_khis8"]
-atlas = ExtResource("4_2hs0m")
+atlas = SubResource("CompressedTexture2D_onrkg")
 region = Rect2(64, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_b88wv"]
-atlas = ExtResource("4_2hs0m")
+atlas = SubResource("CompressedTexture2D_onrkg")
 region = Rect2(128, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_pgbbb"]
-atlas = ExtResource("4_2hs0m")
+atlas = SubResource("CompressedTexture2D_onrkg")
 region = Rect2(192, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_331ug"]
-atlas = ExtResource("4_2hs0m")
+atlas = SubResource("CompressedTexture2D_onrkg")
 region = Rect2(256, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ny14h"]
-atlas = ExtResource("4_2hs0m")
+atlas = SubResource("CompressedTexture2D_onrkg")
 region = Rect2(320, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ibah8"]
-atlas = ExtResource("4_2hs0m")
+atlas = SubResource("CompressedTexture2D_onrkg")
 region = Rect2(384, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3iwfv"]
-atlas = ExtResource("4_2hs0m")
+atlas = SubResource("CompressedTexture2D_onrkg")
 region = Rect2(448, 0, 64, 64)
 
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_i3pqv"]
+load_path = "res://.godot/imported/Pierce_Top-Sheet.png-9c73f1de91062509b36235f6612b7f5d.ctex"
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_qwsg1"]
-atlas = ExtResource("4_1jxqw")
+atlas = SubResource("CompressedTexture2D_i3pqv")
 region = Rect2(0, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1xqrm"]
-atlas = ExtResource("4_1jxqw")
+atlas = SubResource("CompressedTexture2D_i3pqv")
 region = Rect2(64, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bfour"]
-atlas = ExtResource("4_1jxqw")
+atlas = SubResource("CompressedTexture2D_i3pqv")
 region = Rect2(128, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_8gr2b"]
-atlas = ExtResource("4_1jxqw")
+atlas = SubResource("CompressedTexture2D_i3pqv")
 region = Rect2(192, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vl8ci"]
-atlas = ExtResource("4_1jxqw")
+atlas = SubResource("CompressedTexture2D_i3pqv")
 region = Rect2(256, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ieltc"]
-atlas = ExtResource("4_1jxqw")
+atlas = SubResource("CompressedTexture2D_i3pqv")
 region = Rect2(320, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_fddr8"]
-atlas = ExtResource("4_1jxqw")
+atlas = SubResource("CompressedTexture2D_i3pqv")
 region = Rect2(384, 0, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_oybyf"]
-atlas = ExtResource("4_1jxqw")
+atlas = SubResource("CompressedTexture2D_i3pqv")
 region = Rect2(448, 0, 64, 64)
 
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_hqtel"]
+load_path = "res://.godot/imported/char_a_p1_0bas_humn_v01.png-4e988c8cf42dc5dd86dc4e64ae08e74c.ctex"
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_hqtel"]
-atlas = ExtResource("2_i3pqv")
+atlas = SubResource("CompressedTexture2D_hqtel")
 region = Rect2(0, 256, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_sweqy"]
-atlas = ExtResource("2_i3pqv")
+atlas = SubResource("CompressedTexture2D_hqtel")
 region = Rect2(64, 256, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2hs0m"]
-atlas = ExtResource("2_i3pqv")
+atlas = SubResource("CompressedTexture2D_hqtel")
 region = Rect2(128, 256, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1jxqw"]
-atlas = ExtResource("2_i3pqv")
+atlas = SubResource("CompressedTexture2D_hqtel")
 region = Rect2(192, 256, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dw050"]
-atlas = ExtResource("2_i3pqv")
+atlas = SubResource("CompressedTexture2D_hqtel")
 region = Rect2(256, 256, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_b26j0"]
-atlas = ExtResource("2_i3pqv")
+atlas = SubResource("CompressedTexture2D_hqtel")
 region = Rect2(320, 256, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_n7ghd"]
-atlas = ExtResource("2_i3pqv")
+atlas = SubResource("CompressedTexture2D_hqtel")
 region = Rect2(0, 448, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_nvl01"]
-atlas = ExtResource("2_i3pqv")
+atlas = SubResource("CompressedTexture2D_hqtel")
 region = Rect2(64, 448, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ivps1"]
-atlas = ExtResource("2_i3pqv")
+atlas = SubResource("CompressedTexture2D_hqtel")
 region = Rect2(128, 448, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_urp6f"]
-atlas = ExtResource("2_i3pqv")
+atlas = SubResource("CompressedTexture2D_hqtel")
 region = Rect2(192, 448, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_bwjto"]
-atlas = ExtResource("2_i3pqv")
+atlas = SubResource("CompressedTexture2D_hqtel")
 region = Rect2(256, 448, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_606se"]
-atlas = ExtResource("2_i3pqv")
+atlas = SubResource("CompressedTexture2D_hqtel")
 region = Rect2(320, 448, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_u1c27"]
-atlas = ExtResource("2_i3pqv")
+atlas = SubResource("CompressedTexture2D_hqtel")
 region = Rect2(0, 384, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_op7ga"]
-atlas = ExtResource("2_i3pqv")
+atlas = SubResource("CompressedTexture2D_hqtel")
 region = Rect2(64, 384, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_q13i1"]
-atlas = ExtResource("2_i3pqv")
+atlas = SubResource("CompressedTexture2D_hqtel")
 region = Rect2(128, 384, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_pylmc"]
-atlas = ExtResource("2_i3pqv")
+atlas = SubResource("CompressedTexture2D_hqtel")
 region = Rect2(192, 384, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_pbfsw"]
-atlas = ExtResource("2_i3pqv")
+atlas = SubResource("CompressedTexture2D_hqtel")
 region = Rect2(256, 384, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5tmop"]
-atlas = ExtResource("2_i3pqv")
+atlas = SubResource("CompressedTexture2D_hqtel")
 region = Rect2(320, 384, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7ahtn"]
-atlas = ExtResource("2_i3pqv")
+atlas = SubResource("CompressedTexture2D_hqtel")
 region = Rect2(0, 320, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7lmhl"]
-atlas = ExtResource("2_i3pqv")
+atlas = SubResource("CompressedTexture2D_hqtel")
 region = Rect2(64, 320, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_dx0e4"]
-atlas = ExtResource("2_i3pqv")
+atlas = SubResource("CompressedTexture2D_hqtel")
 region = Rect2(128, 320, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_jm5j8"]
-atlas = ExtResource("2_i3pqv")
+atlas = SubResource("CompressedTexture2D_hqtel")
 region = Rect2(192, 320, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_7hik5"]
-atlas = ExtResource("2_i3pqv")
+atlas = SubResource("CompressedTexture2D_hqtel")
 region = Rect2(256, 320, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qtqh7"]
-atlas = ExtResource("2_i3pqv")
+atlas = SubResource("CompressedTexture2D_hqtel")
 region = Rect2(320, 320, 64, 64)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_2wuci"]
@@ -447,7 +618,7 @@ radius = 8.66667
 
 [node name="Player" type="CharacterBody2D" groups=["player"]]
 scale = Vector2(1.5, 1.5)
-script = ExtResource("1_onrkg")
+script = SubResource("GDScript_sweqy")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_2wuci")

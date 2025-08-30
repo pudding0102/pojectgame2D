@@ -1,7 +1,7 @@
 [gd_scene load_steps=11 format=3 uid="uid://b2de4cxi4hcyg"]
 
 [ext_resource type="Script" uid="uid://dro3w8vssf8od" path="res://yak.gd" id="1_0jwdf"]
-[ext_resource type="Texture2D" uid="uid://bh0plrm77w0x4" path="res://enemy/Yak1run.png" id="1_yvjal"]
+[ext_resource type="Texture2D" uid="uid://bh0plrm77w0x4" path="res://Yak/Yak1run.png" id="1_yvjal"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0jwdf"]
 atlas = ExtResource("1_yvjal")

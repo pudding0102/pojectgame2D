@@ -1,7 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://cumrgl6wod6ug"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_po0nb"]
-load_path = "res://.godot/imported/bg.png-086b912f044104266caefa444b2f1644.ctex"
 
 [node name="background" type="Sprite2D"]
 position = Vector2(752, -4)

@@ -1,11 +1,11 @@
-[gd_scene load_steps=38 format=3 uid="uid://48eejj5xj5od"]
+[gd_scene load_steps=38 format=3 uid="uid://faisifnqqmem"]
 
-[ext_resource type="Script" uid="uid://dne8d2dqcullh" path="res://enemy.gd" id="1_epg4t"]
-[ext_resource type="Texture2D" uid="uid://bh0plrm77w0x4" path="res://enemy/Yak1run.png" id="1_iifgy"]
-[ext_resource type="Texture2D" uid="uid://c2g0cjci8t0m1" path="res://enemy/Yak2run.png" id="2_epg4t"]
-[ext_resource type="Texture2D" uid="uid://3vkdoaa36po8" path="res://enemy/Yak3run.png" id="3_3yqyl"]
-[ext_resource type="Texture2D" uid="uid://h00vh2msy8be" path="res://enemy/Yak4run.png" id="4_wujgv"]
-[ext_resource type="Texture2D" uid="uid://dt05tlboeyavb" path="res://enemy/Slime3_Run_shadow.png" id="6_3yqyl"]
+[ext_resource type="Script" uid="uid://dgd1ndpb3n8nq" path="res://enemy.gd" id="1_epg4t"]
+[ext_resource type="Texture2D" uid="uid://bh0plrm77w0x4" path="res://Yak/Yak1run.png" id="1_iifgy"]
+[ext_resource type="Texture2D" uid="uid://c2g0cjci8t0m1" path="res://Yak/Yak2run.png" id="2_epg4t"]
+[ext_resource type="Texture2D" uid="uid://3vkdoaa36po8" path="res://Yak/Yak3run.png" id="3_3yqyl"]
+[ext_resource type="Texture2D" uid="uid://h00vh2msy8be" path="res://Yak/Yak4run.png" id="4_wujgv"]
+[ext_resource type="Texture2D" uid="uid://dt05tlboeyavb" path="res://Yak/Slime3_Run_shadow.png" id="6_3yqyl"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hb8ge"]
 atlas = ExtResource("1_iifgy")
