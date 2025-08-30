@@ -18,10 +18,10 @@ next_scene = ExtResource("2_efv3v")
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="Label" type="Label" parent="CanvasLayer"]
-offset_left = 362.0
-offset_top = 277.0
-offset_right = 873.0
-offset_bottom = 358.0
+offset_left = 318.0
+offset_top = 253.0
+offset_right = 829.0
+offset_bottom = 334.0
 theme_override_colors/font_color = Color(0.910156, 0.730469, 0, 1)
 theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
 theme_override_constants/outline_size = 10
@@ -42,19 +42,19 @@ theme_override_font_sizes/font_size = 32
 text = "methusmaneewijit © 2025"
 
 [node name="StartButton" type="Button" parent="CanvasLayer"]
-offset_left = 534.0
-offset_top = 446.0
-offset_right = 706.0
-offset_bottom = 500.0
+offset_left = 453.0
+offset_top = 394.0
+offset_right = 625.0
+offset_bottom = 448.0
 theme_override_fonts/font = ExtResource("3_d0h0r")
 theme_override_font_sizes/font_size = 36
 text = "START"
 
 [node name="QuitButton" type="Button" parent="CanvasLayer"]
-offset_left = 533.0
-offset_top = 520.0
-offset_right = 705.0
-offset_bottom = 574.0
+offset_left = 454.0
+offset_top = 468.0
+offset_right = 626.0
+offset_bottom = 522.0
 theme_override_fonts/font = ExtResource("3_d0h0r")
 theme_override_font_sizes/font_size = 36
 text = "QUIT

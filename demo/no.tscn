@@ -616,7 +616,7 @@ animations = [{
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_iruf7"]
 radius = 8.66667
 
-[node name="Player" type="CharacterBody2D" groups=["player"]]
+[node name="Player2" type="CharacterBody2D" groups=["player"]]
 scale = Vector2(1.5, 1.5)
 script = SubResource("GDScript_sweqy")
 
